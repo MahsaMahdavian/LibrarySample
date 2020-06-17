@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LibraryWebSite.Data;
+using LibraryWebSite.Data.Contract;
+using LibraryWebSite.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,8 +28,9 @@ namespace LibraryWebSite
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddTransient<LibraryDBContext>();     
-            services.AddControllersWithViews();
+            services.AddTransient<LibraryDBContext>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddControllersWithViews().AddNewtonsoftJson().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

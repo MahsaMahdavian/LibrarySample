@@ -15,7 +15,7 @@ namespace LibraryWebSite.Entities
         public string Title { get; set; }
         public string Summary { get; set; }
         public int Price { get; set; }
-        //public int Stock { get; set; }
+
         public string File { get; set; }
         public int NumOfPages { get; set; }
         public string ISBN { get; set; }
