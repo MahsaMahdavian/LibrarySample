@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using LibraryWebSite.Data.Contract;
@@ -10,9 +11,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace LibraryWebSite.Controllers
 {
+    [Area("Admin")]
     public class BookController : Controller
     {
         private readonly IUnitOfWork _UW;
@@ -66,7 +69,14 @@ namespace LibraryWebSite.Controllers
                     book_Tranlators = translators,
                     book_Categories = categories,
                 };
-
+                if (ViewModel.Image!=null)
+                {
+                    using(var memoryStream=new MemoryStream())
+                    {
+                        await ViewModel.Image.CopyToAsync(memoryStream);
+                        book.Image = memoryStream.ToArray();
+                    }
+                }
                 await _UW.BaseRepository<Book>().CreateAsync(book);
                 await _UW.Commit();
                 return RedirectToAction("Index");
@@ -80,20 +90,54 @@ namespace LibraryWebSite.Controllers
             }
         }
 
+        public IActionResult Details(int id)
+        {
+            if (id == 0)
+                return NotFound();
+
+            //var BookInfo = _UW._Context.Books.ToList();
+
+            var BookInfo=_UW._Context.Books.Where(b=>b.BookID==id).Select(t => new ReadAllBook 
+            { Title = t.Title,
+                Summary = t.Summary ,
+                NumOfPages=t.NumOfPages,
+                InsertDate=t.InsertDate,
+                IsLoan=(bool)t.IsLoan,
+                ISBN=t.ISBN,
+                Price=t.Price,
+                BookID=t.BookID,
+                Image=t.Image,
+                LanguageName=t.Language.LanguageName,
+                Authors=t.author_Books.Select(a=>a.Author.FirstName + " " + a.Author.LastName).FirstOrDefault(),
+                Translators=t.book_Tranlators.Select(t=>t.Translator.Name+" "+t.Translator.Family).FirstOrDefault(),
+                                                
+            }).SingleOrDefault();                    
+            return View(BookInfo);
+        }
+
+        public async Task<IActionResult> ViewImage(int id)
+        {
+            var Book =await _UW.BaseRepository<Book>().FindByIdAsync(id);
+            if (Book == null)
+                return NotFound();
+
+            var memoryStream = new MemoryStream(Book.Image);
+            return new FileStreamResult(memoryStream, "image/png");
+        }
+
         #region Api Calls
 
         [HttpGet]
         public IActionResult GetAllBooks()
         {
-            //return Json(new { data = _UW.BaseRepository<Book>().FindAll().Select(a=> new BooksAdvancedSearch 
-            //{Title=a.Title,Summary=a.Summary,ISBN=a.ISBN,Language=a.Language.LanguageName })  });
-
-            var aa = Json(new
+          
+            return Json(new
             {
                 data = _UW._Context.Books.Include(b => b.author_Books).ThenInclude(b => b.Author)
                                       .Include(b => b.book_Tranlators).ThenInclude(b => b.Translator)
                                       .Include(b => b.Language).ToList().Select(a => new BooksAdvancedSearch
                                       {
+                                          Id=a.BookID,
                                           Title = a.Title,
                                           Summary = a.Summary,
                                           NumOfPages = a.NumOfPages.ToString(),
@@ -104,7 +148,7 @@ namespace LibraryWebSite.Controllers
                                           Translator=a.book_Tranlators.Select(t=>t.Translator.Name + " " + t.Translator.Family).FirstOrDefault() })
             }) ;
             
-            return aa;
+            
         }
         #endregion
     }

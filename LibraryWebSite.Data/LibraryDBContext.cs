@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using LibraryWebSite.Data.Mapping;
 using LibraryWebSite.Entities;
+using LibraryWebSite.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryWebSite.Data
@@ -17,6 +18,7 @@ namespace LibraryWebSite.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.AddCustomLibraryWebsiteMappings();
+           
         }
         public DbSet<Book> Books { get; set; }
         public DbSet<Category> Categories { get; set; }

@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LibraryWebSite.Entities\LibraryWebSite.Entities.csproj" />
+    <ProjectReference Include="..\LibraryWebSite.ViewModel\LibraryWebSite.ViewModel.csproj" />
   </ItemGroup>
 
 </Project>

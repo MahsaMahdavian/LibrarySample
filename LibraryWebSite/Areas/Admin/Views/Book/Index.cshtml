@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <div class="border backgroundWhite">
+        <div class="row">
+            <div class="col-6 text-right">
+                <h2 class="text-primary">لیست کتابها</h2>
+            </div>
+            <div class="col-6 text-right">
+                <a asp-action="Insert" class="btn btn-primary"><i class="fas fa-plus"></i> &nbsp; افزودن کتاب جدید</a>
+            </div>
+        </div>
+
+        <br />
+        <br />
+
+        
+        <table id="tblData" class="table table-responsive-md table-responsive-sm table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>عنوان</th>
+                    <th>خلاصه</th>
+                    <th>تعداد صفحات</th>
+                    <th>شابک</th>
+                    <th>تاریخ ثبت</th>
+                    <th>زبان</th>
+                    <th>نویسنده</th>
+                    <th>مترجم</th>
+
+                </tr>
+            </thead>
+        </table>
+    </div>
+<div class="border">
+    <div class="row">
+        <div class="col-12 text-right">
+
+           
+            <input type="text" placeholder="جستجو.." id="txtSearch">
+
+           
+            <table class="table table-responsive-md p-4 table-responsive-sm table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>عنوان</th>
+                        <th>خلاصه</th>
+                        <th>تعداد صفحات</th>
+                        <th>شابک</th>
+                        <th>تاریخ ثبت</th>
+                        <th>زبان</th>
+                        <th>نویسنده</th>
+                        <th>مترجم</th>
+                        <th>جزئیات</th>
+
+                    </tr>
+                </thead>
+                <tbody id="myTable">
+                </tbody>
+
+            </table>
+
+
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/Book.js"></script>
+
+}
