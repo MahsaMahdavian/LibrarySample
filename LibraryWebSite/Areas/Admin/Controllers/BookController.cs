@@ -47,12 +47,8 @@ namespace LibraryWebSite.Controllers
                 List<Book_Category> categories = new List<Book_Category>();
                 if (ViewModel.TranslatorID != null)
                     translators = ViewModel.TranslatorID.Select(a => new Book_Translator { TranslatorID = a }).ToList();
-                if (ViewModel.CategoryID != null)
-                    categories = ViewModel.CategoryID.Select(a => new Book_Category { CategoryID = a }).ToList();
-
+              
                 DateTime? InsertDate = null;
-
-
                 InsertDate = DateTime.Now;
 
                 Book book = new Book()
@@ -67,7 +63,7 @@ namespace LibraryWebSite.Controllers
                     InsertDate = InsertDate,
                     author_Books = ViewModel.AuthorID.Select(a => new Author_Book { AuthorID = a }).ToList(),
                     book_Tranlators = translators,
-                    book_Categories = categories,
+                    
                 };
                 if (ViewModel.Image!=null)
                 {
@@ -94,8 +90,6 @@ namespace LibraryWebSite.Controllers
         {
             if (id == 0)
                 return NotFound();
-
-            //var BookInfo = _UW._Context.Books.ToList();
 
             var BookInfo=_UW._Context.Books.Where(b=>b.BookID==id).Select(t => new ReadAllBook 
             { Title = t.Title,
