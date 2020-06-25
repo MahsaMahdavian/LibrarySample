@@ -3,19 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryWebSite", "LibraryWebSite\LibraryWebSite.csproj", "{EB3CFE4A-32D4-4EEF-A323-6D34084C0522}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebSite", "LibraryWebSite\LibraryWebSite.csproj", "{EB3CFE4A-32D4-4EEF-A323-6D34084C0522}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4C9C37BC-5908-4726-BB82-5556396AEC6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryWebSite.Data", "LibraryWebSite.Data\LibraryWebSite.Data.csproj", "{0E0651D6-F9DB-4259-BBA8-77DE074AD1A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebSite.Data", "LibraryWebSite.Data\LibraryWebSite.Data.csproj", "{0E0651D6-F9DB-4259-BBA8-77DE074AD1A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryWebSite.Entities", "LibraryWebSite.Entities\LibraryWebSite.Entities.csproj", "{23F6DA69-295D-485C-AEA4-77228DF991E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebSite.Entities", "LibraryWebSite.Entities\LibraryWebSite.Entities.csproj", "{23F6DA69-295D-485C-AEA4-77228DF991E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryWebSite.Common", "LibraryWebSite.Common\LibraryWebSite.Common.csproj", "{519EBDB8-69F2-48C0-A9B7-59500AF26322}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebSite.Common", "LibraryWebSite.Common\LibraryWebSite.Common.csproj", "{519EBDB8-69F2-48C0-A9B7-59500AF26322}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryWebSite.Services", "LibraryWebSite.Services\LibraryWebSite.Services.csproj", "{1460F0AF-011E-4F36-A07B-99E8875586D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebSite.Services", "LibraryWebSite.Services\LibraryWebSite.Services.csproj", "{1460F0AF-011E-4F36-A07B-99E8875586D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryWebSite.ViewModel", "LibraryWebSite.ViewModel\LibraryWebSite.ViewModel.csproj", "{F34554B0-51F3-4BD9-85E1-53A90507FEB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebSite.ViewModel", "LibraryWebSite.ViewModel\LibraryWebSite.ViewModel.csproj", "{F34554B0-51F3-4BD9-85E1-53A90507FEB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryWebSite.IocConfig", "LibraryWebSite.IocConfig\LibraryWebSite.IocConfig.csproj", "{4911CAF0-05C3-4E2A-BCAD-A746DA4A6B3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{F34554B0-51F3-4BD9-85E1-53A90507FEB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F34554B0-51F3-4BD9-85E1-53A90507FEB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F34554B0-51F3-4BD9-85E1-53A90507FEB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4911CAF0-05C3-4E2A-BCAD-A746DA4A6B3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4911CAF0-05C3-4E2A-BCAD-A746DA4A6B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4911CAF0-05C3-4E2A-BCAD-A746DA4A6B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4911CAF0-05C3-4E2A-BCAD-A746DA4A6B3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{519EBDB8-69F2-48C0-A9B7-59500AF26322} = {4C9C37BC-5908-4726-BB82-5556396AEC6F}
 		{1460F0AF-011E-4F36-A07B-99E8875586D9} = {4C9C37BC-5908-4726-BB82-5556396AEC6F}
 		{F34554B0-51F3-4BD9-85E1-53A90507FEB7} = {4C9C37BC-5908-4726-BB82-5556396AEC6F}
+		{4911CAF0-05C3-4E2A-BCAD-A746DA4A6B3F} = {4C9C37BC-5908-4726-BB82-5556396AEC6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1130850E-47EF-4699-8DBF-3F71AA5357C1}

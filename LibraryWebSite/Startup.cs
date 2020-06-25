@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using LibraryWebSite.Data;
 using LibraryWebSite.Data.Contract;
 using LibraryWebSite.Data.Repositories;
+using LibraryWebSite.IocConfig;
+using LibraryWebSite.ViewModel.Setting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,10 +29,12 @@ namespace LibraryWebSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.Configure<SiteSetting>(Configuration.GetSection(nameof(SiteSetting)));
+            services.AddDbContext<LibraryDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
             services.AddTransient<LibraryDBContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews().AddNewtonsoftJson().AddRazorRuntimeCompilation();
+            services.AddCustomIdentityServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +52,7 @@ namespace LibraryWebSite
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCustomIdentityServices();
 
             app.UseRouting();
 

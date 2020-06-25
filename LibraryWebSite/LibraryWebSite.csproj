@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LibraryWebSite.Data\LibraryWebSite.Data.csproj" />
+    <ProjectReference Include="..\LibraryWebSite.IocConfig\LibraryWebSite.IocConfig.csproj" />
     <ProjectReference Include="..\LibraryWebSite.ViewModel\LibraryWebSite.ViewModel.csproj" />
   </ItemGroup>
 
