@@ -47,7 +47,8 @@ namespace LibraryWebSite
             });
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("AdminView", policy => policy.RequireRole("Admin","User"));
+                options.AddPolicy("UserView", policy => policy.RequireRole("Admin","User"));
+                options.AddPolicy("AdminView", policy => policy.RequireRole("Admin"));
                 options.AddPolicy("HappyBirthDay", policy => policy.RequireClaim(ClaimTypes.DateOfBirth, DateTime.Now.ToString("MM/dd")));
             });
 

@@ -122,6 +122,7 @@ namespace LibraryWebSite.Services.Contracts
         Task<List<UsersViewModel>> GetAllUsersWithRolesAsync();
         Task<string> GetFullName(ClaimsPrincipal User);
         Task<User> GetUserAsync(ClaimsPrincipal User);
+        //Task<User> FindByIdAsync(int userId);
         #endregion
 
 

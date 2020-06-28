@@ -27,12 +27,12 @@
                     }
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12 user-detail-section1 text-center">
-                    <a href="/Admin/UsersManager/Edit/@Model.Id" class="btn btn-success btn-block follow">ویرایش اطلاعات کاربر </a>
-                    <a asp-action="ResetPassword" asp-controller="UsersManager" asp-route-UserId="@Model.Id" class="btn btn-warning btn-block mb-2">تنظیم مجدد کلمه عبور</a>
+                    <a asp-area="Admin" asp-action="Edit" asp-controller="UserManager" asp-route-id=@Model.Id class="btn btn-success btn-block follow">ویرایش اطلاعات کاربر </a>
+                    @*<a asp-action="ResetPassword" asp-controller="UsersManager" asp-route-UserId="@Model.Id" class="btn btn-warning btn-block mb-2">تنظیم مجدد کلمه عبور</a>*@
                 </div>
                 @if ((await AuthorizationService.AuthorizeAsync(User, "HappyBirthDay")).Succeeded)
                 {
-                  
+                 
                         <a class="nav-link text-danger" href="/Account/HappyBirthDay">
                             <i class="fa fa-gift"></i>
                             تبریک !!! کلیک کنید
@@ -63,9 +63,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" href="#profile" role="tab" data-toggle="tab"><i class="fas fa-user-circle"></i>اطلاعات شخصی</a>
                                 </li>
-                                <li class="nav-item">
+                                @*<li class="nav-item">
                                     <a class="nav-link" href="#buzz" role="tab" data-toggle="tab"><i class="fas fa-edit"></i>مدیریت کاربر</a>
-                                </li>
+                                </li>*@
                             </ul>
 
                             <!-- Tab panes -->
@@ -139,7 +139,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div role="tabpanel" class="tab-pane fade" id="buzz">
+                                @*<div role="tabpanel" class="tab-pane fade" id="buzz">
                                     <div class="table-responsive">
                                         <table class="table table-bordered ">
                                             <thead>
@@ -328,7 +328,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
+                                </div>*@
 
                             </div>
 

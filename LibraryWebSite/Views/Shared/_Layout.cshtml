@@ -34,7 +34,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if ((await AuthorizationService.AuthorizeAsync(User, "AdminView")).Succeeded)
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "UserView")).Succeeded)
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle table-light" href="#" id="navbarDropDown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -26,7 +26,7 @@ namespace LibraryWebSite.Services.Contracts
         private readonly IServiceProvider _services;
         private readonly IUserStore<User> _userStore;
         private readonly IEnumerable<IUserValidator<User>> _userValidators;
-       
+
 
         public ApplicationUserManager(
             CustomIdentityErrorDescriber errors,
@@ -50,14 +50,30 @@ namespace LibraryWebSite.Services.Contracts
             _options = options;
             _keyNormalizer = keyNormalizer;
             _passwordValidators = passwordValidators;
-           
+
         }
 
         public async Task<List<User>> GetAllUsersAsync()
         {
             return await Users.ToListAsync();
         }
-
+        //public async Task<User> FindByIdAsync(int userId)
+        //{
+        //    return await Users.Where(u => u.Id == userId).Select(user => new UsersViewModel 
+        //    {
+        //        Id= user.Id,
+        //        EmailConfirmed= user.Email,
+        //        UserName = user.UserName,
+        //        PhoneNumber = user.PhoneNumber,
+        //        FirstName = user.FirstName,
+        //        LastName = user.LastName,
+        //        BirthDate = user.BirthDate,
+        //        IsActive = user.IsActive,
+        //        Image = user.PhotoFileName,
+        //        CreateDateTime = user.CreatedDateTime,
+        //        RolesName = user.Roles.Select(r => r.Role.Name)
+        //    });
+        //}
         public async Task<List<UsersViewModel>> GetAllUsersWithRolesAsync()
         {
             return await Users.Select(user => new UsersViewModel
@@ -72,7 +88,7 @@ namespace LibraryWebSite.Services.Contracts
                 IsActive = user.IsActive,
                 Image = user.PhotoFileName,
                 CreateDateTime = user.CreatedDateTime,
-                RolesName = user.Roles.Select(r=>r.Role.Name)
+                RolesName = user.Roles.Select(r => r.Role.Name)
             }).ToListAsync();
         }
 
@@ -89,7 +105,7 @@ namespace LibraryWebSite.Services.Contracts
                 BirthDate = user.BirthDate,
                 IsActive = user.IsActive,
                 Image = user.PhotoFileName,
-                PersianRegisterDateTime=user.CreatedDateTime.ConvertMiladiToShamsi("yyyy/MM/dd"),                
+                PersianRegisterDateTime = user.CreatedDateTime.ConvertMiladiToShamsi("yyyy/MM/dd"),
                 RoleName = user.Roles.First().Role.Name,
                 AccessFailedCount = user.AccessFailedCount,
                 EmailConfirmed = user.EmailConfirmed,
@@ -98,7 +114,7 @@ namespace LibraryWebSite.Services.Contracts
                 PhoneNumberConfirmed = user.PhoneNumberConfirmed,
                 TwoFactorEnabled = user.TwoFactorEnabled,
                 Gender = user.Gender,
-               PersianLastVisitDateTime=user.LastVisitDateTime.ConvertMiladiToShamsi("dddd d MMMM yyyy ساعت HH:mm:ss")
+                PersianLastVisitDateTime = user.LastVisitDateTime.ConvertMiladiToShamsi("dddd d MMMM yyyy ساعت HH:mm:ss")
 
             }).FirstOrDefaultAsync();
         }

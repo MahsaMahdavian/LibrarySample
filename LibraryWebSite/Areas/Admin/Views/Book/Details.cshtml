@@ -1,94 +1,99 @@
 ﻿@model LibraryWebSite.ViewModel.ReadAllBook
+@using System.Security.Claims
 @{
     ViewData["Title"] = "Details";
 }
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header bg-light text-right">
-                    اطلاعات کتاب @Model.Title
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            @if (Model.Image!= null)
-                            {
-                                <img src="~/Admin/Book/ViewImage/@Model.BookID" height="250"/>
-                            }
-                            else
-                            {
-                                <img src="~/images/Book.png" height="250" />
-                            }
-
-                        </div>
-
-                        <div class="col-md-9">
-                            <div class="row text-right">
-                                <div class="col-md-6">
-                                    <p>عنوان کتاب : @Model.Title</p>
-                                    <p>شابک : @Model.ISBN</p>
-                                    <p>قیمت : @Model.Price</p>
-                                    <p>تعداد صفحات : @Model.NumOfPages</p>
-                                    <p>زبان کتاب : @Model.LanguageName</p>
-                                </div>
-                                <div class="col-md-6">
-
-
-                                    <p>
-                                        نویسندگان : @Model.Authors
-
-                                    </p>
-                                    <p>
-                                        مترجمان : @Model.Translators
-
-                                    </p>
-
-                                    <p>
-                                        تاریخ ثبت :
-                                        @if (Model.InsertDate != null)
-                                        {
-                                            @Model.InsertDate;
-
-                                        }
-
-                                        else
-                                        {
-                                            <span>-</span>
-                                        }
-                                    </p>
-                                    <p>
-                                        وضعیت :
-                                        @if (Model.IsLoan == true)
-                                        {
-                                            <span>موجود نیست</span>
-                                        }
-
-                                        else
-                                        {
-                                            <span>موجود است</span>
-                                        }
-                                    </p>
-
-                                </div>
-                                <div class="col-md-12 col-sm-12 col-xs-12 user-detail-section1 text-center">
-                                    <a asp-action="Edit" asp-controller="Book"  asp-route-id="@Model.BookID" class="btn btn-success btn-block follow">ویرایش کتاب </a>
-                                    <a asp-action="Delete" asp-controller="Book" asp-route-id="@Model.BookID" class="btn btn-danger btn-block mb-2">حذف کتاب</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 text-right">
-                            <hr />
-                            <p>
-                                خلاصه کتاب : @Model.Summary
-                            </p>
-                        </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-light text-right">
+                اطلاعات کتاب @Model.Title
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        @if (Model.Image != null)
+                        {
+                            <img src="~/Admin/Book/ViewImage/@Model.BookID" height="250" />
+                        }
+                        else
+                        {
+                            <img src="~/images/Book.png" height="250" />
+                        }
 
                     </div>
 
+                    <div class="col-md-9">
+                        <div class="row text-right">
+                            <div class="col-md-6">
+                                <p>عنوان کتاب : @Model.Title</p>
+                                <p>شابک : @Model.ISBN</p>
+                                <p>قیمت : @Model.Price</p>
+                                <p>تعداد صفحات : @Model.NumOfPages</p>
+                                <p>زبان کتاب : @Model.LanguageName</p>
+                            </div>
+                            <div class="col-md-6">
+
+
+                                <p>
+                                    نویسندگان : @Model.Authors
+
+                                </p>
+                                <p>
+                                    مترجمان : @Model.Translators
+
+                                </p>
+
+                                <p>
+                                    تاریخ ثبت :
+                                    @if (Model.InsertDate != null)
+                                    {
+                                        @Model.InsertDate;
+
+                                    }
+
+                                    else
+                                    {
+                                        <span>-</span>
+                                    }
+                                </p>
+                                <p>
+                                    وضعیت :
+                                    @if (Model.IsLoan == true)
+                                    {
+                                        <span>موجود نیست</span>
+                                    }
+
+                                    else
+                                    {
+                                        <span>موجود است</span>
+                                    }
+                                </p>
+
+                            </div>
+                            @if (Model.UserID == Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)) && Model.UserID!=0)
+                            {
+                                <div class="col-md-12 col-sm-12 col-xs-12 user-detail-section1 text-center">
+                                    <a asp-action="Edit" asp-controller="Book" asp-route-id="@Model.BookID" class="btn btn-success btn-block follow">ویرایش کتاب </a>
+                                    <a asp-action="Delete" asp-controller="Book" asp-route-id="@Model.BookID" class="btn btn-danger btn-block mb-2">حذف کتاب</a>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 text-right">
+                        <hr />
+                        <p>
+                            خلاصه کتاب : @Model.Summary
+                        </p>
+                    </div>
+
                 </div>
+
             </div>
         </div>
     </div>
+</div>
 

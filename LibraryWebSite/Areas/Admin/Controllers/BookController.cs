@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using LibraryWebSite.Data.Contract;
 using LibraryWebSite.Entities;
@@ -9,10 +10,8 @@ using LibraryWebSite.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+
 
 namespace LibraryWebSite.Controllers
 {
@@ -20,9 +19,11 @@ namespace LibraryWebSite.Controllers
     public class BookController : Controller
     {
         private readonly IUnitOfWork _UW;
+        
         public BookController(IUnitOfWork UW)
         {
             _UW = UW;
+           
         }
         [Authorize]
         public IActionResult Index()
@@ -65,7 +66,7 @@ namespace LibraryWebSite.Controllers
                     InsertDate = InsertDate,
                     author_Books = ViewModel.AuthorID.Select(a => new Author_Book { AuthorID = a }).ToList(),
                     book_Tranlators = translators,
-                    
+                    UserID = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier))
                 };
                 if (ViewModel.Image!=null)
                 {
@@ -103,6 +104,7 @@ namespace LibraryWebSite.Controllers
                 Price=t.Price,
                 BookID=t.BookID,
                 Image=t.Image,
+                UserID=t.UserID,
                 LanguageName=t.Language.LanguageName,
                 Authors=t.author_Books.Select(a=>a.Author.FirstName + " " + a.Author.LastName).FirstOrDefault(),
                 Translators=t.book_Tranlators.Select(t=>t.Translator.Name+" "+t.Translator.Family).FirstOrDefault(),

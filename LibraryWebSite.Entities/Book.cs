@@ -22,7 +22,7 @@ namespace LibraryWebSite.Entities
         public bool? IsLoan { get; set; }
         public DateTime? InsertDate { get; set; }
         public bool? Delete { get; set; }
-
+        public int UserID { get; set; }
 
         [Column(TypeName = "image")]
         public byte[] Image { get; set; }
