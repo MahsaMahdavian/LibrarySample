@@ -14,6 +14,7 @@ namespace LibraryWebSite.IocConfig
             services.AddScoped<IApplicationUserManager, ApplicationUserManager>();
             services.AddScoped<IIdentityDbInitializer, IdentityDbInitializer>();
             services.AddScoped<CustomIdentityErrorDescriber>();
+           
         }
 
         public static void UseCustomIdentityServices(this IApplicationBuilder app)

@@ -17,5 +17,7 @@ namespace LibraryWebSite.Data.Contract
         Task CreateRangeAsync(IEnumerable<TEntity> entities);       
         Task<List<TEntity>> GetPaginateResultAsync(int CurrentPage, int PageSize = 1);
         int CountEntities();
+        void DeleteRange(IEnumerable<TEntity> entities);
+        void Update(TEntity entity);
     }
 }

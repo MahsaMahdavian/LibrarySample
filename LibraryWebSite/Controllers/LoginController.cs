@@ -1,13 +1,18 @@
-﻿
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using LibraryWebSite.Entities.Identity;
 using LibraryWebSite.Services.Contracts;
+using LibraryWebSite.ViewModel;
 using LibraryWebSite.ViewModel.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using LibraryWebSite.Common;
+using System;
 
 namespace LibraryWebSite.Controllers
 {
@@ -20,20 +25,24 @@ namespace LibraryWebSite.Controllers
         private readonly IApplicationUserManager _userManager;
         private readonly IApplicationRoleManager _roleManager;
         private readonly IHttpContextAccessor _accessor;
+        private readonly IEmailSender _emailSender;
         public LoginController
             (
-            IApplicationUserManager userManager,
-            SignInManager<User> signInManager,
             ILogger<LoginController> logger,
-            IHttpContextAccessor accessor,
-            IApplicationRoleManager roleManager
+            SignInManager<User> signInManager,
+            IApplicationUserManager userManager,
+            IApplicationRoleManager roleManager,
+            IHttpContextAccessor accessor,        
+            IEmailSender emailSender
+
             )
         {
-            _accessor = accessor;
+            _logger = logger;
+            _signInManager = signInManager;
             _userManager = userManager;
             _roleManager = roleManager;
-            _signInManager = signInManager;
-            _logger = logger;
+            _accessor = accessor;
+            _emailSender = emailSender;
 
         }
        
@@ -98,12 +107,88 @@ namespace LibraryWebSite.Controllers
             await _signInManager.SignOutAsync();
             if (user != null)
             {
-                await _userManager.UpdateSecurityStampAsync(user);
+                await _userManager.UpdateAsync(user);
                 _logger.LogInformation(4, $"{user.UserName} logged out.");
             }
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel ViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                DateTime BirthDateMiladi = ViewModel.BirthDate.ConvertShamsiToMiladi();
+
+                var user = new User 
+                {
+                    UserName = ViewModel.UserName,
+                    Email = ViewModel.Email, 
+                    PhoneNumber = ViewModel.PhoneNumber,
+                    CreatedDateTime = DateTime.Now, 
+                    IsActive = true,
+                    BirthDate = BirthDateMiladi 
+                };
+                IdentityResult result = await _userManager.CreateAsync(user, ViewModel.Password);
+
+                if (result.Succeeded)
+                {
+                    var role =await _roleManager.FindByNameAsync("User");
+                    if (role == null)
+                        await _roleManager.CreateAsync(new Role("User"));
+
+                    result = await _userManager.AddToRoleAsync(user, "User");
+                    await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.DateOfBirth, BirthDateMiladi.ToString("MM/dd")));
+
+                    if (result.Succeeded)
+                    {
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var result1 = await _userManager.ConfirmEmailAsync(user, code);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Login", values: new { userId = user.Id, code = code }, protocol: Request.Scheme);
+
+                       await _emailSender.SendEmailAsync(ViewModel.Email, "تایید ایمیل حساب کاربری - ", $"<div dir='rtl' style='font-family:tahoma;font-size:14px'>لطفا با کلیک روی لینک رویه رو ایمیل خود را تایید کنید.  <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>کلیک کنید</a></div>");
+
+                        return RedirectToAction("Index", "Home", new { id = "ConfirmEmail" });
+                    }
+                }
+
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, item.Description);
+                }
+            }
+
+            return View();
+        }
+
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+                return RedirectToAction("Index", "Home");
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound($"Unable to load user with ID '{userId}'");
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (!result.Succeeded)
+                throw new InvalidOperationException($"Error Confirming email for user with ID '{userId}'");
+
+            return View();
+        }
+
+        [Authorize(Policy = "HappyBirthDay")]
+        public IActionResult HappyBirthDay()
+        {
+            return View();
+        }
     }
 }

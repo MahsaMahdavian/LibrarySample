@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using LibraryWebSite.Common;
 using LibraryWebSite.Entities.Identity;
 using LibraryWebSite.ViewModel.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -71,8 +72,7 @@ namespace LibraryWebSite.Services.Contracts
                 IsActive = user.IsActive,
                 Image = user.PhotoFileName,
                 CreateDateTime = user.CreatedDateTime,
-                Roles = user.Roles,
-
+                RolesName = user.Roles.Select(r=>r.Role.Name)
             }).ToListAsync();
         }
 
@@ -89,7 +89,7 @@ namespace LibraryWebSite.Services.Contracts
                 BirthDate = user.BirthDate,
                 IsActive = user.IsActive,
                 Image = user.PhotoFileName,
-                CreateDateTime = user.CreatedDateTime,
+                PersianRegisterDateTime=user.CreatedDateTime.ConvertMiladiToShamsi("yyyy/MM/dd"),                
                 RoleName = user.Roles.First().Role.Name,
                 AccessFailedCount = user.AccessFailedCount,
                 EmailConfirmed = user.EmailConfirmed,
@@ -98,6 +98,8 @@ namespace LibraryWebSite.Services.Contracts
                 PhoneNumberConfirmed = user.PhoneNumberConfirmed,
                 TwoFactorEnabled = user.TwoFactorEnabled,
                 Gender = user.Gender,
+               PersianLastVisitDateTime=user.LastVisitDateTime.ConvertMiladiToShamsi("dddd d MMMM yyyy ساعت HH:mm:ss")
+
             }).FirstOrDefaultAsync();
         }
 
@@ -108,31 +110,31 @@ namespace LibraryWebSite.Services.Contracts
         }
 
 
-        //public List<UsersViewModel> GetPaginateUsers(int offset, int limit, Func<UsersViewModel, Object> orderByAscFunc, Func<UsersViewModel, Object> orderByDescFunc, string searchText)
-        //{
-        //    var users = Users.Include(u => u.Roles).Where(t => t.FirstName.Contains(searchText) || t.LastName.Contains(searchText) || t.Email.Contains(searchText) || t.UserName.Contains(searchText) || t.CreatedDateTime.ConvertMiladiToShamsi("yyyy/MM/dd ساعت HH:mm:ss").Contains(searchText))
-        //          .Select(user => new UsersViewModel
-        //          {
-        //              Id = user.Id,
-        //              Email = user.Email,
-        //              UserName = user.UserName,
-        //              PhoneNumber = user.PhoneNumber,
-        //              FirstName = user.FirstName,
-        //              LastName = user.LastName,
-        //              IsActive = user.IsActive,
-        //              Image = user.Image,
-        //              PersianBirthDate = user.BirthDate.ConvertMiladiToShamsi("yyyy/MM/dd"),
-        //              PersianRegisterDateTime = user.RegisterDateTime.ConvertMiladiToShamsi("yyyy/MM/dd ساعت HH:mm:ss"),
-        //              GenderName = user.Gender == GenderType.Male ? "مرد" : "زن",
-        //              RoleId = user.Roles.Select(r => r.Role.Id).FirstOrDefault(),
-        //              RoleName = user.Roles.Select(r => r.Role.Name).FirstOrDefault()
-        //          }).OrderBy(orderByAscFunc).OrderByDescending(orderByDescFunc).Skip(offset).Take(limit).ToList();
+        public List<UsersViewModel> GetPaginateUsers(int offset, int limit, Func<UsersViewModel, Object> orderByAscFunc, Func<UsersViewModel, Object> orderByDescFunc, string searchText)
+        {
+            var users = Users.Include(u => u.Roles).Where(t => t.FirstName.Contains(searchText) || t.LastName.Contains(searchText) || t.Email.Contains(searchText) || t.UserName.Contains(searchText) || t.CreatedDateTime.ConvertMiladiToShamsi("yyyy/MM/dd ساعت HH:mm:ss").Contains(searchText))
+                  .Select(user => new UsersViewModel
+                  {
+                      Id = user.Id,
+                      Email = user.Email,
+                      UserName = user.UserName,
+                      PhoneNumber = user.PhoneNumber,
+                      FirstName = user.FirstName,
+                      LastName = user.LastName,
+                      IsActive = user.IsActive,
+                      //Image = user.Image,
+                      PersianBirthDate = user.BirthDate.ConvertMiladiToShamsi("yyyy/MM/dd"),
+                      PersianRegisterDateTime = user.CreatedDateTime.ConvertMiladiToShamsi("yyyy/MM/dd ساعت HH:mm:ss"),
+                      GenderName = user.Gender == GenderType.Male ? "مرد" : "زن",
+                      RoleId = user.Roles.Select(r => r.Role.Id).FirstOrDefault(),
+                      RoleName = user.Roles.Select(r => r.Role.Name).FirstOrDefault()
+                  }).OrderBy(orderByAscFunc).OrderByDescending(orderByDescFunc).Skip(offset).Take(limit).ToList();
 
-        //    foreach (var item in users)
-        //        item.Row = ++offset;
+            foreach (var item in users)
+                item.Row = ++offset;
 
-        //    return users;
-        //}
+            return users;
+        }
 
 
         public string CheckAvatarFileName(string fileName)

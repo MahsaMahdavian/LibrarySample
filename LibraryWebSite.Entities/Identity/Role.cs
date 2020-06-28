@@ -12,14 +12,12 @@ namespace LibraryWebSite.Entities.Identity
         {
         }
 
-        public Role(string name)
-            : this()
+        public Role(string name) : base(name)
         {
-            Name = name;
+
         }
 
-        public Role(string name, string description)
-            : this(name)
+        public Role(string name, string description) : base(name)
         {
             Description = description;
         }

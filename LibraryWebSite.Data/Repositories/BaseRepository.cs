@@ -69,5 +69,7 @@ namespace LibraryWebSite.Data.Repositories
         {
             return dbSet.Count();
         }
+        public void DeleteRange(IEnumerable<TEntity> entities) => dbSet.RemoveRange(entities);
+        public void Update(TEntity entity) => dbSet.Update(entity);
     }
 }

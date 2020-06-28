@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+
+<!DOCTYPE html>
 <html lang="en-us">
 <head>
     <meta charset="utf-8" />
@@ -25,25 +30,31 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle table-light" href="#" id="navbarDropDown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Content Management
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropDown">
-                                <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="Book" asp-action="Index">Book</a>
-                            </div>
-                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                      
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "AdminView")).Succeeded)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle table-light" href="#" id="navbarDropDown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    بخش مدیریت
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropDown">
+                                    <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="UserManager" asp-action="Index">مدیریت کاربران</a>
+                                    <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="Book" asp-action="Index">مدیریت کتابها</a>
+                                </div>
+                            </li>
+                        }
+
+
+
                     </ul>
                 </div>
                 <partial name="_LoginPartial" />
             </div>
         </nav>
-       
+
     </header>
     <div class="container">
         <main role="main" class="pb-3">

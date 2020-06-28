@@ -3,8 +3,8 @@ var dataTable;
 
 $(document).ready(function () {
     //loadDataTable();
-    LoadTabaleManually();
-    SarchWithAllItem();
+   LoadTabaleManually();
+   SarchWithAllItem();
 
 
 });

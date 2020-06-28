@@ -1,0 +1,17 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using LibraryWebSite.Entities.Identity
+@using LibraryWebSite.Services.Contracts
+@inject SignInManager<User> SignInManager
+@inject IApplicationUserManager UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+        
+    
+}
+
+
