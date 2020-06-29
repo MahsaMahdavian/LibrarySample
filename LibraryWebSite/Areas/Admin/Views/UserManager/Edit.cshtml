@@ -24,7 +24,7 @@
                     <div class="col-md-12 text-center">
                         <div class="fileinput fileinput-new" data-provides="fileinput">
                             <div class="fileinput-new thumbnail" style="height: 150px;">
-                                <img src="~/images/UserPic.png" style="height: 150px;/>
+                                <img src="~/images/UserPic.png" style="height: 150px;">
                             </div>
                             <div class="fileinput-preview fileinput-exists thumbnail" style="height:200px"> </div>
                             <div>
@@ -95,19 +95,19 @@
                                         <li class="p-1">
                                             @if (Model.Roles != null)
                                             {
-                                                if (Model.Roles.FirstOrDefault().ToString().Contains(item.Name))
+                                                if (Model.RolesName.Contains(item.Name))
                                                 {
-                                                    <input type="checkbox" value="@item.Name" name="Roles" checked />
+                                                    <input type="checkbox" value="@item.Name" name="Roles" checked class="ml-3"/>
                                                 }
                                                 else
                                                 {
-                                                    <input type="checkbox" value="@item.Name" name="Roles" />
+                                                    <input type="checkbox" value="@item.Name" name="Roles"class="ml-3" />
                                                 }
                                             }
 
                                             else
                                             {
-                                                <input type="checkbox" value="@item.Name" name="Roles" />
+                                                <input type="checkbox" value="@item.Name" name="Roles" class="ml-3"/>
                                             }
 
                                             @item.Name

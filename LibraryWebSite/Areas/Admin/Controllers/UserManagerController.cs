@@ -92,7 +92,61 @@ namespace LibraryWebSite.Areas.Admin.Controllers
         }
 
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(UsersViewModel ViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var User = await _userManager.FindByNameAsync(ViewModel.UserName);
+                if (User == null)
+                    return NotFound();
+                else
+                {
+                    IdentityResult Result;
+                    var RecentRoles = await _userManager.GetRolesAsync(User);
+                    var DeleteRoles = RecentRoles.Except(ViewModel.RolesName);
+                    var AddRoles = ViewModel.RolesName.Except(RecentRoles);
 
-    
+                    Result = await _userManager.RemoveFromRolesAsync(User, DeleteRoles);
+                    if (Result.Succeeded)
+                    {
+                        Result = await _userManager.AddToRolesAsync(User, AddRoles);
+                        if (Result.Succeeded)
+                        {
+                            User.FirstName = ViewModel.FirstName;
+                            User.LastName = ViewModel.LastName;
+                            User.Email = ViewModel.Email;
+                            User.PhoneNumber = ViewModel.PhoneNumber;
+                            User.UserName = ViewModel.UserName;
+                            User.BirthDate = ViewModel.PersianBirthDate.ConvertShamsiToMiladi();
+
+                            Result = await _userManager.UpdateAsync(User);
+                            if (Result.Succeeded)
+                            {
+                                ViewBag.AlertSuccess = "ذخیره تغییرات با موفقیت انجام شد.";
+                            }
+                        }
+                    }
+
+                    if (Result != null)
+                    {
+                        foreach (var item in Result.Errors)
+                        {
+                            ModelState.AddModelError("", item.Description);
+                        }
+                    }
+                }
+            }
+
+            ViewBag.AllRoles = _roleManager.GetAllRoles();
+            return View(ViewModel);
+        }
+
+
+
+
+
+
     }
 }
