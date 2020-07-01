@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using LibraryWebSite.Common;
 using LibraryWebSite.Entities.Identity;
@@ -57,23 +56,7 @@ namespace LibraryWebSite.Services.Contracts
         {
             return await Users.ToListAsync();
         }
-        //public async Task<User> FindByIdAsync(int userId)
-        //{
-        //    return await Users.Where(u => u.Id == userId).Select(user => new UsersViewModel 
-        //    {
-        //        Id= user.Id,
-        //        EmailConfirmed= user.Email,
-        //        UserName = user.UserName,
-        //        PhoneNumber = user.PhoneNumber,
-        //        FirstName = user.FirstName,
-        //        LastName = user.LastName,
-        //        BirthDate = user.BirthDate,
-        //        IsActive = user.IsActive,
-        //        Image = user.PhotoFileName,
-        //        CreateDateTime = user.CreatedDateTime,
-        //        RolesName = user.Roles.Select(r => r.Role.Name)
-        //    });
-        //}
+
         public async Task<List<UsersViewModel>> GetAllUsersWithRolesAsync()
         {
             return await Users.Select(user => new UsersViewModel
@@ -88,13 +71,15 @@ namespace LibraryWebSite.Services.Contracts
                 IsActive = user.IsActive,
                 Image = user.PhotoFileName,
                 CreateDateTime = user.CreatedDateTime,
-                RolesName = user.Roles.Select(r => r.Role.Name)
+                RolesName = user.Roles.Select(r => r.Role.Name),
+                Roles=user.Roles
+                
             }).ToListAsync();
         }
 
         public async Task<UsersViewModel> FindUserWithRolesByIdAsync(int UserId)
         {
-            return await Users.Where(u => u.Id == UserId).Select(user => new UsersViewModel
+           return await Users.Where(u => u.Id == UserId).Select(user => new UsersViewModel
             {
                 Id = user.Id,
                 Email = user.Email,
@@ -106,17 +91,18 @@ namespace LibraryWebSite.Services.Contracts
                 IsActive = user.IsActive,
                 Image = user.PhotoFileName,
                 PersianRegisterDateTime = user.CreatedDateTime.ConvertMiladiToShamsi("yyyy/MM/dd"),
-                RoleName = user.Roles.First().Role.Name,
+                RolesName = user.Roles.Select(a => a.Role.Name).ToList(),
                 AccessFailedCount = user.AccessFailedCount,
                 EmailConfirmed = user.EmailConfirmed,
                 LockoutEnabled = user.LockoutEnabled,
                 LockoutEnd = user.LockoutEnd,
                 PhoneNumberConfirmed = user.PhoneNumberConfirmed,
                 TwoFactorEnabled = user.TwoFactorEnabled,
-                Gender = user.Gender,
+                Roles = user.Roles,
                 PersianLastVisitDateTime = user.LastVisitDateTime.ConvertMiladiToShamsi("dddd d MMMM yyyy ساعت HH:mm:ss")
 
             }).FirstOrDefaultAsync();
+             
         }
 
         public async Task<string> GetFullName(ClaimsPrincipal User)
@@ -142,7 +128,6 @@ namespace LibraryWebSite.Services.Contracts
                       PersianBirthDate = user.BirthDate.ConvertMiladiToShamsi("yyyy/MM/dd"),
                       PersianRegisterDateTime = user.CreatedDateTime.ConvertMiladiToShamsi("yyyy/MM/dd ساعت HH:mm:ss"),
                       GenderName = user.Gender == GenderType.Male ? "مرد" : "زن",
-                      RoleId = user.Roles.Select(r => r.Role.Id).FirstOrDefault(),
                       RoleName = user.Roles.Select(r => r.Role.Name).FirstOrDefault()
                   }).OrderBy(orderByAscFunc).OrderByDescending(orderByDescFunc).Skip(offset).Take(limit).ToList();
 

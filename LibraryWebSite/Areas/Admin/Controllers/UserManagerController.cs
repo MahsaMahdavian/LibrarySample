@@ -72,7 +72,7 @@ namespace LibraryWebSite.Areas.Admin.Controllers
         }
 
 
-        
+
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -98,7 +98,7 @@ namespace LibraryWebSite.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var User = await _userManager.FindByNameAsync(ViewModel.UserName);
+                var User = await _userManager.FindByIdAsync(ViewModel.Id.ToString());
                 if (User == null)
                     return NotFound();
                 else
@@ -142,10 +142,7 @@ namespace LibraryWebSite.Areas.Admin.Controllers
             ViewBag.AllRoles = _roleManager.GetAllRoles();
             return View(ViewModel);
         }
-
-
-
-
+       
 
 
     }

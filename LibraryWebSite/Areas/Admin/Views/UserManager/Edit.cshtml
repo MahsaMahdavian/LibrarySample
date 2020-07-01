@@ -92,26 +92,26 @@
                                     @foreach (var item in ViewBag.AllRoles as List<Role>)
                                     {
 
-                                        <li class="p-1">
-                                            @if (Model.Roles != null)
+                                    <li class="p-1">
+                                        @if (Model.Roles != null)
+                                        {
+                                            if (Model.RolesName.Contains(item.Name))
                                             {
-                                                if (Model.RolesName.Contains(item.Name))
-                                                {
-                                                    <input type="checkbox" value="@item.Name" name="Roles" checked class="ml-3"/>
-                                                }
-                                                else
-                                                {
-                                                    <input type="checkbox" value="@item.Name" name="Roles"class="ml-3" />
-                                                }
+                                                <input type="checkbox" value="@item.Name" name="RolesName" checked class="ml-3" />
                                             }
-
                                             else
                                             {
-                                                <input type="checkbox" value="@item.Name" name="Roles" class="ml-3"/>
+                                                <input type="checkbox" value="@item.Name"  name="RolesName" class="ml-3" />
                                             }
+                                        }
 
-                                            @item.Name
-                                        </li>
+                                        else
+                                        {
+                                            <input type="checkbox" value="@item.Name"  name="RolesName" class="ml-3" />
+                                        }
+                                      
+                                        @item.Name
+                                    </li>
                                     }
                                 </ul>
                             </div>

@@ -154,7 +154,7 @@ namespace LibraryWebSite.Controllers
                         var result1 = await _userManager.ConfirmEmailAsync(user, code);
                         var callbackUrl = Url.Action("ConfirmEmail", "Login", values: new { userId = user.Id, code = code }, protocol: Request.Scheme);
 
-                       await _emailSender.SendEmailAsync(ViewModel.Email, "تایید ایمیل حساب کاربری - ", $"<div dir='rtl' style='font-family:tahoma;font-size:14px'>لطفا با کلیک روی لینک رویه رو ایمیل خود را تایید کنید.  <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>کلیک کنید</a></div>");
+                       //await _emailSender.SendEmailAsync(ViewModel.Email, "تایید ایمیل حساب کاربری - ", $"<div dir='rtl' style='font-family:tahoma;font-size:14px'>لطفا با کلیک روی لینک رویه رو ایمیل خود را تایید کنید.  <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>کلیک کنید</a></div>");
 
                         return RedirectToAction("Index", "Home", new { id = "ConfirmEmail" });
                     }

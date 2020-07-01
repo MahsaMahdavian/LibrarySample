@@ -27,13 +27,13 @@
                     }
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12 user-detail-section1 text-center">
-                    <a asp-area="Admin" asp-action="Edit" asp-controller="UserManager" asp-route-id=@Model.Id class="btn btn-success btn-block follow">ویرایش اطلاعات کاربر </a>
+                    <a href="/Admin/UserManager/Edit/@Model.Id" class="btn btn-success btn-block follow">ویرایش اطلاعات کاربر </a>
                     @*<a asp-action="ResetPassword" asp-controller="UsersManager" asp-route-UserId="@Model.Id" class="btn btn-warning btn-block mb-2">تنظیم مجدد کلمه عبور</a>*@
                 </div>
                 @if ((await AuthorizationService.AuthorizeAsync(User, "HappyBirthDay")).Succeeded)
                 {
                  
-                        <a class="nav-link text-danger" href="/Account/HappyBirthDay">
+                        <a class="nav-link text-danger" href="/login/HappyBirthDay">
                             <i class="fa fa-gift"></i>
                             تبریک !!! کلیک کنید
                         </a>

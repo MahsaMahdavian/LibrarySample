@@ -27,14 +27,7 @@ namespace LibraryWebSite.ViewModel.Identity
         [EmailAddress(ErrorMessage = "ایمیل وارد شده صحیح نمی باشد.")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "وارد نمودن {0} الزامی است.")]
-        [StringLength(100, ErrorMessage = "{0} باید دارای حداقل {2} کاراکتر و حداکثر دارای {1} کاراکتر باشد.", MinimumLength = 6)]
-        [DataType(DataType.Password), Display(Name = "کلمه عبور"), JsonIgnore]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password), Display(Name = "تکرار کلمه عبور"), JsonIgnore]
-        [Compare("Password", ErrorMessage = "کلمه عبور وارد شده با تکرار کلمه عبور مطابقت ندارد.")]
-        public string ConfirmPassword { get; set; }
+      
 
 
         [Display(Name = "شماره موبایل"), JsonProperty("شماره تماس")]
@@ -68,9 +61,7 @@ namespace LibraryWebSite.ViewModel.Identity
         [Display(Name = "فعال / غیرفعال"), JsonProperty("IsActive")]
         public bool IsActive { get; set; }
 
-        [Display(Name = "جنسیت"), JsonIgnore]
-        [Required(ErrorMessage = "انتخاب {0} الزامی است.")]
-        public GenderType? Gender { get; set; }
+   
 
         [JsonProperty("جنسیت")]
         public string GenderName { get; set; }
@@ -78,10 +69,8 @@ namespace LibraryWebSite.ViewModel.Identity
         [JsonIgnore]
         public ICollection<UserRole> Roles { get; set; }
 
-        [System.Text.Json.Serialization.JsonIgnore, Display(Name = "نقش")]
-        [Required(ErrorMessage = "انتخاب {0} الزامی است.")]
-        public int? RoleId { get; set; }
 
+        public int RoleId { get; set; }
         [JsonProperty("نقش")]
         public string RoleName { get; set; }
 
